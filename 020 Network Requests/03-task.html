@@ -6,16 +6,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 03</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card-photo {
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container">
+    </div>
     <script>
         /*
         Задание:
         Напишите сценарий, который при загрузке страницы выполнит GET запрос на https://jsonplaceholder.typicode.com/photos
         и выведет на странице все изображения в виде <img>, которые будут получены в ответе.
         */
+
+        let createView = {
+            createImageCard: function (element, obj) {
+                document.querySelector(element).insertAdjacentHTML("beforeend", `<img class="card-photo" src=${obj.url} alt=${"photo" + obj.id} title=${"photo" + obj.id + "_" + this.toCamelCase(obj.title)}>`);
+            },
+
+            toCamelCase: function (str) {               
+                const words = str.split(/[-_ ]/);             // Разделяем строку на слова                
+                for (let i = 1; i < words.length; i++) {      // Преобразуем первый символ каждого слова кроме первого в верхний регистр
+                    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+                }               
+                return words.join("");                        // Объединяем слова без разделителей
+            },
+        }
+
+
+        function loadImages(url) {
+            return fetch(url)
+                .then(response => response.json())
+                .then(images => {
+                    for (image of images) {
+                        createView.createImageCard(".container", image)
+                    }
+                });
+        }
+
+
+        let url = "https://jsonplaceholder.typicode.com/photos";
+        let element = document.querySelector(".container");
+        loadImages(url);
+
     </script>
+
 </body>
 
 </html>
