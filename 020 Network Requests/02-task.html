@@ -18,20 +18,20 @@
         }
 
         .row {
-            margin-right: 120px;
+            margin-right: 50px;
             display: flex;
             justify-content: flex-end;
         }
 
         div>label {
-            height: 50px;
+            height: 40px;
             font-size: 26px;
             padding: 10px 0px;
         }
 
         .out-date {
-            height: 50px;
-            width: 200px;
+            height: 40px;
+            width: 300px;
             font-size: 26px;
         }
 
@@ -43,10 +43,6 @@
 </head>
 
 <body>
-    let url = "https://jsonplaceholder.typicode.com/posts/1";
-
-
-
     <form class="update">
         <fieldset>
             <legend>updating your data</legend>
@@ -59,14 +55,12 @@
                 <input class="out-date" type="text" name="body" id="body">
             </div>
             <div class="row">
-                <button>click for update</button>
+                <button id="update">click for update</button>
             </div>
         </fieldset>
-
-
-
-
     </form>
+
+    <button id="print">print</button>
 
 
     <script>
@@ -90,16 +84,36 @@
         для обновления сущности воспользуйтесь PUT запросом https://jsonplaceholder.typicode.com/posts/1. Обработайте ответ
         и выведите информацию о ошибке или об успешно завершенной операции.
         */
+let obj
 
-        fetch(url)
-            .then(response => {
-                response.json()
-            )
-            .then(data >= {
-                document.forms[0].elements[0].value = data.value;
-            }
-                
-            });
+        function createFirstlyView(url, form) {
+           fetch(url).then(response => response.json())
+                .then(data => {
+                    console.log(data); 
+                    console.log(typeof data);    
+                    form.elements.title.value = data.title;
+                    form.elements.body.value = data.body; 
+                    obj = data;
+                });
+        }
+
+        function updateData(url, obj, form){
+            obj.title = form.elements.title.value;
+            obj.body = form.elements.body.value;
+            console.log(obj)
+
+        }
+
+        let url = "https://jsonplaceholder.typicode.com/posts/1";
+        let form = document.forms[0];
+
+        createFirstlyView(url, form);
+
+        document.querySelector("#print").addEventListener("click", ()=> {console.log("obj: ", obj)})
+
+        document.querySelector("#update").addEventListener("click", updateData);
+
+
     </script>
 </body>
 
