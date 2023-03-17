@@ -10,23 +10,21 @@
         .update {
             width: 500px;
             margin: auto;
-            background: lightgray;
+            background: rgb(231, 230, 230);
         }
 
         .row {
             padding: 5px;
-        }
-
-        .row {
             margin-right: 50px;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
         }
 
         div>label {
             height: 40px;
             font-size: 26px;
-            padding: 10px 0px;
+            padding: 10px 5px;
         }
 
         .out-date {
@@ -35,9 +33,36 @@
             font-size: 26px;
         }
 
-        button {
+        #btn-put {
             font-size: 20px;
-            padding: 5px;
+            padding: 9px 7px;
+            margin-left: 10px;
+            background-color: rgb(238, 143, 143);
+            border: none;
+            color: white;
+        }
+
+        #btn-put:hover {
+            background-color: rgb(245, 99, 99);
+            box-shadow: 0 0 5px 3px rgb(243, 173, 173);
+        }
+
+        #btn-put:active {
+            background-color: rgb(245, 99, 99);
+            box-shadow: none;
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+        #report {
+            font-size: 20px;
+        }
+
+        .successfully {
+            color: green;
         }
     </style>
 </head>
@@ -55,12 +80,15 @@
                 <input class="out-date" type="text" name="body" id="body">
             </div>
             <div class="row">
-                <button id="update">click for update</button>
+                <span id="report" class="hidden"></span>
+                <img id="preloader" class="hidden" src="images/In turn appearing.gif" alt="spiner">
+                <input id="btn-put" type="button" name="btn" value="click for update">
+                <!-- <button id="ate">click for update</button> -->
             </div>
         </fieldset>
     </form>
 
-    <button id="print">print</button>
+    <!-- <button id="print">print</button> -->
 
 
     <script>
@@ -84,34 +112,58 @@
         для обновления сущности воспользуйтесь PUT запросом https://jsonplaceholder.typicode.com/posts/1. Обработайте ответ
         и выведите информацию о ошибке или об успешно завершенной операции.
         */
-let obj
+        let objPost = {};
+        function showHidden(idElement) {
+            document.querySelector(idElement).classList.remove("hidden");
+        }
+
+        function removeHidden(idElement) {
+            document.querySelector(idElement).classList.add("hidden");
+        }
 
         function createFirstlyView(url, form) {
-           fetch(url).then(response => response.json())
+            showHidden("#preloader");
+            fetch(url).then(response => response.json())
                 .then(data => {
-                    console.log(data); 
-                    console.log(typeof data);    
                     form.elements.title.value = data.title;
-                    form.elements.body.value = data.body; 
-                    obj = data;
-                });
+                    form.elements.body.value = data.body;
+                    objPost = data;
+                })
+                .finally(() => { removeHidden("#preloader") });
         }
 
-        function updateData(url, obj, form){
-            obj.title = form.elements.title.value;
-            obj.body = form.elements.body.value;
-            console.log(obj)
-
+        function updateData(url, objPost, form) {
+            removeHidden("#report");
+            showHidden("#preloader");
+            objPost.title = form.elements.title.value;
+            objPost.body = form.elements.body.value;
+            console.log(objPost);
+            fetch(url + "/" + objPost.id, {
+                method: "PUT",
+                body: JSON.stringify(objPost),
+            }).then(response => {
+                if (response.ok) {
+                    removeHidden("#preloader");
+                    showHidden("#report");
+                    document.querySelector("#report").textContent = `successfully code: ${response.status}`;
+                    document.querySelector("#report").classList.add("successfully");
+                } else {
+                    removeHidden("#preloader");
+                    showHidden("#report");
+                    document.querySelector("#report").textContent = `unsuccessfully code: ${response.status}`;
+                    document.querySelector("#report").classList.remove("successfully");
+                }
+            });            
         }
 
-        let url = "https://jsonplaceholder.typicode.com/posts/1";
+        let url = "https://jsonplaceholder.typicode.com/posts";
         let form = document.forms[0];
 
-        createFirstlyView(url, form);
+        createFirstlyView(url + "/" + 1, form);
 
-        document.querySelector("#print").addEventListener("click", ()=> {console.log("obj: ", obj)})
-
-        document.querySelector("#update").addEventListener("click", updateData);
+        form.elements.btn.addEventListener("click", () => {
+            updateData(url, objPost, form);
+        });
 
 
     </script>
