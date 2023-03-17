@@ -6,58 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 04</title>
-    <style>
-        table {
-            user-select: none;
-        }
-
-        .table-todos {
-            border: black 2px solid;
-            border-collapse: collapse;
-            box-shadow: 2px 2px 7px 3px grey;
-            margin: auto;
-        }
-
-        .thead-todos {
-            background: slategray;
-        }
-
-        th {
-            border: black 2px solid;
-            padding: 10px;
-        }
-
-        .row-todo:hover {
-            background: lightgrey;
-            text-shadow: 1px 1px 2px grey;
-            box-shadow: 2px 2px 7px 3px grey;
-        }
-
-        .row-todo:active {
-            background: lightgrey;
-            color: blue;
-            text-decoration: underline;
-            box-shadow: 0px 0px 7px 3px blue;
-        }
-
-        .row-todo td {
-            border: black 1px solid;
-            padding: 7px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        #preloader{
-            text-align: center;
-            margin: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/styleTask4.css">
 </head>
 
-<body>   
-    <img id="preloader" class="hidden"src="images/In turn appearing.gif" alt="spiner">
+<body>
+    <div class="container-preloader"><img id="preloader" class="hidden" src="images/In turn appearing.gif" alt="spiner">
+    </div>
     <table class="table-todos">
         <thead class="thead-todos">
             <tr>
@@ -67,7 +21,7 @@
                 <th>completed</th>
             </tr>
         </thead>
-        <tbody id="tBody">         
+        <tbody id="tBody">
         </tbody>
         <script>
             /*

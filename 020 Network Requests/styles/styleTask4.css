@@ -1,0 +1,50 @@
+table {
+    user-select: none;
+}
+
+.table-todos {
+    border: black 2px solid;
+    border-collapse: collapse;
+    box-shadow: 2px 2px 7px 3px grey;
+    margin: auto;
+}
+
+.thead-todos {
+    background: slategray;
+}
+
+th {
+    border: black 2px solid;
+    padding: 10px;
+}
+
+.row-todo:hover {
+    background: lightgrey;
+    text-shadow: 1px 1px 2px grey;
+    box-shadow: 2px 2px 7px 3px grey;
+}
+
+.row-todo:active {
+    background: lightgrey;
+    color: blue;
+    text-decoration: underline;
+    box-shadow: 0px 0px 7px 3px blue;
+}
+
+.row-todo td {
+    border: black 1px solid;
+    padding: 7px;
+}
+
+.container-preloader{
+    width: 150px;
+    margin: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+#preloader {
+    text-align: center;           
+}
