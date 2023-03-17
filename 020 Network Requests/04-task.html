@@ -6,16 +6,108 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 04</title>
+    <style>
+        table {
+            user-select: none;
+        }
+
+        .table-todos {
+            border: black 2px solid;
+            border-collapse: collapse;
+            box-shadow: 2px 2px 7px 3px grey;
+            margin: auto;
+        }
+
+        .thead-todos {
+            background: slategray;
+        }
+
+        th {
+            border: black 2px solid;
+            padding: 10px;
+        }
+
+        .row-todo:hover {
+            background: lightgrey;
+            text-shadow: 1px 1px 2px grey;
+            box-shadow: 2px 2px 7px 3px grey;
+        }
+
+        .row-todo:active {
+            background: lightgrey;
+            color: blue;
+            text-decoration: underline;
+            box-shadow: 0px 0px 7px 3px blue;
+        }
+
+        .row-todo td {
+            border: black 1px solid;
+            padding: 7px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #preloader{
+            text-align: center;
+            margin: auto;
+        }
+    </style>
 </head>
 
-<body>
-    <script>
-        /*
-        Задание:
-        Напишите сценарий, который выполняет GET запрос по адресу https://jsonplaceholder.typicode.com/todos
-        И выводит содержимое ответа в виде таблицы.
-        */
-    </script>
+<body>   
+    <img id="preloader" class="hidden"src="images/In turn appearing.gif" alt="spiner">
+    <table class="table-todos">
+        <thead class="thead-todos">
+            <tr>
+                <th>userId</th>
+                <th>id</th>
+                <th>title</th>
+                <th>completed</th>
+            </tr>
+        </thead>
+        <tbody id="tBody">         
+        </tbody>
+        <script>
+            /*
+            Задание:
+            Напишите сценарий, который выполняет GET запрос по адресу https://jsonplaceholder.typicode.com/todos
+            И выводит содержимое ответа в виде таблицы.
+            */
+
+            let repository = {
+                getTodos: function (url, element) {
+                    showHidden("#preloader");
+                    return fetch(url)
+                        .then(response => response.json())
+                        .then(todos => {
+                            todos.forEach(todo => {
+                                createView(element, todo)
+                            });
+                        })
+                        .finally(() => { removeHidden("#preloader") });
+                }
+            }
+
+            function showHidden(idElement) {
+                document.querySelector(idElement).classList.remove("hidden");
+            }
+
+            function removeHidden(idElement) {
+                document.querySelector(idElement).classList.add("hidden");
+            }
+
+
+            function createView(element, todo) {
+                element.insertAdjacentHTML("beforeend", `<tr class="row-todo"><td>${todo.userId}</td><td>${todo.id}</td><td>${todo.title}</td><td>${todo.completed}</td></tr>`);
+            }
+
+            const url = "https://jsonplaceholder.typicode.com/todos";
+            const element = document.querySelector("#tBody");
+
+            repository.getTodos(url, element);
+        </script>
 </body>
 
 </html>
