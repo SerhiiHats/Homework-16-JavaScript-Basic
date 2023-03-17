@@ -6,9 +6,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task 02</title>
+    <style>
+        .update {
+            width: 500px;
+            margin: auto;
+            background: lightgray;
+        }
+
+        .row {
+            padding: 5px;
+        }
+
+        .row {
+            margin-right: 120px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        div>label {
+            height: 50px;
+            font-size: 26px;
+            padding: 10px 0px;
+        }
+
+        .out-date {
+            height: 50px;
+            width: 200px;
+            font-size: 26px;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 5px;
+        }
+    </style>
 </head>
 
 <body>
+    let url = "https://jsonplaceholder.typicode.com/posts/1";
+
+
+
+    <form class="update">
+        <fieldset>
+            <legend>updating your data</legend>
+            <div class="row">
+                <label for="title">title: </label>
+                <input class="out-date" type="text" name="title" id="title">
+            </div>
+            <div class="row">
+                <label for="body">body: </label>
+                <input class="out-date" type="text" name="body" id="body">
+            </div>
+            <div class="row">
+                <button>click for update</button>
+            </div>
+        </fieldset>
+
+
+
+
+    </form>
+
+
     <script>
         /*
         Задание:
@@ -30,6 +90,16 @@
         для обновления сущности воспользуйтесь PUT запросом https://jsonplaceholder.typicode.com/posts/1. Обработайте ответ
         и выведите информацию о ошибке или об успешно завершенной операции.
         */
+
+        fetch(url)
+            .then(response => {
+                response.json()
+            )
+            .then(data >= {
+                document.forms[0].elements[0].value = data.value;
+            }
+                
+            });
     </script>
 </body>
 
